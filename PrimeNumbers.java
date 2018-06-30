@@ -1,25 +1,29 @@
 import java.io.*;
 import java.util.*;
 
+//https://primes.utm.edu/howmany.html#pi_def
+//https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes#Algorithm_and_variants
+
 class PrimeNumbers {
 
 	private long additionTotal;
 	private long multiplicationTotal;
 	private long start;
-	private ArrayList<Integer> arrPrime;
+	private ArrayList<Double> arrPrime;
 	private double loopSize = 10;	
 
 	public static void main(String[] args) {
-		int N = Integer.parseInt(args[0]);
+		double N =(double) Integer.parseInt(args[0]);
 		PrimeNumbers prime = new PrimeNumbers(N);
 	}
-	public PrimeNumbers(int N){
+	public PrimeNumbers(double N){
 		System.out.println("N="+N);
 
 		additionTotal=0;
 		multiplicationTotal=0;
 		start = System.nanoTime();
-		PrimeV2(N);
+		long[]arr = new long[10.0];
+		//PrimeV2((double)N);
 	}
 	//Version 2
 	//N:100,     Time:0.001,    Add: 535,        Mul: 485
@@ -29,25 +33,28 @@ class PrimeNumbers {
 	//N:1000000, Time:37.207,   Add: 3086865210, Mul: 3086708214
 	//N:10000000, //Time:??
 	//Version 2.1
-	//N=100,     Time:0.001,    Add: 441,        Mul: 415
-	//N=1000,    Time:0.005,    Add: 10908,      Mul: 10739
-	//N=10000,   Time:0.040,    Add: 448784,     Mul: 447554
-	//N=100000,  Time:0.450,    Add: 25162132,   Mul: 25152539
-	//N=1000000, Time:21.661    Add: 1639679217, Mul: 1639600718
-	public void PrimeV2(int N){
-		arrPrime = new ArrayList<Integer>();
-		for(int i = 2 ; i <= N ; i++){
-			boolean isPrime = true;
+	//N=100,      Time:0.001,    Add: 441,          Mul: 415
+	//N=1000,     Time:0.005,    Add: 10908,        Mul: 10739
+	//N=10000,    Time:0.040,    Add: 448784,       Mul: 447554
+	//N=100000,   Time:0.450,    Add: 25162132,     Mul: 25152539
+	//N=1000000,  Time:21.661    Add: 1639679217,   Mul: 1639600718
+	//N=10000000, Time:1455,31   Add: 116079393948, Mul: 116078729368
+	//
+	public void PrimeV2(double N){
+		arrPrime = new ArrayList<Double>();
+		boolean isPrime = false;
+		for(double i = 2 ; i <= N ; i++){
+			isPrime = true;
 			additionTotal++;//For loop
 			for(int l = 0 ; l < arrPrime.size(); l++){
 				additionTotal++;//For loop
-				double pPrime = (double) i/ (double) arrPrime.get(l); 
-				multiplicationTotal++;
 				if(arrPrime.get(l) > i/2){ //Version 2 loop
 					multiplicationTotal++;
 					break;
 				}
-				else if(pPrime % 1 == 0){ //isPrime
+				double pPrime =  i/ arrPrime.get(l);//Moved her for V3                
+                                multiplicationTotal++;
+				if(pPrime % 1 == 0){ //isPrime
 					multiplicationTotal++;//Comparaison
                                         isPrime = false;
                                         break;
@@ -66,7 +73,7 @@ class PrimeNumbers {
 	//N:1000,   Time: 0.036,   Add: 185558,     Mul: 999
 	//N:10000,  Time: 0.877,   Add: 13060137,   Mul: 9999
 	//N:100000, Time: 62.105 , Add: 1002068212, Mul: 99999 
-	public void PrimeV1(int N){
+	/*public void PrimeV1(int N){
 		arrPrime = new ArrayList<Integer>();
 			
 		int loopNumber = (int) Math.ceil(N/loopSize);
@@ -76,21 +83,21 @@ class PrimeNumbers {
 			if(l == 0){ //Skip Zero and 1
 				for(int i = 2; i < l*loopSize+loopSize; i++){
 					additionTotal++;//For Loop
-					arrInts.add(i);
+					//arrInts.add(i);
 					additionTotal++;
 				}
 			}
 			else if(l < loopNumber-1){
 				for(int i =  l* (int)loopSize; i < l*loopSize+loopSize; i++){
 					additionTotal++;//For loop
-					arrInts.add(i);
+					//arrInts.add(i);
 					additionTotal++;
 				}
 			}
 			else{
 				for(int i =  l* (int)loopSize; i <= N; i++){
 					additionTotal++;//For loop
-					arrInts.add(i);
+					//arrInts.add(i);
 					additionTotal++;
 				}
 			}
@@ -125,7 +132,7 @@ class PrimeNumbers {
 				}
 			}
 		}
-	}
+	}*/
 			
 	///Prints Results
 	public void PrintResults(){
