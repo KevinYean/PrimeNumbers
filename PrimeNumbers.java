@@ -22,9 +22,41 @@ class PrimeNumbers {
 		additionTotal=0;
 		multiplicationTotal=0;
 		start = System.nanoTime();
-		long[]arr = new long[10.0];
 		//PrimeV2((double)N);
+		PrimeV3(N);
 	}
+	//Version 3:Sieve
+	//N:100,	Time=0.001,	Add:370,	Mul:0
+	//N:1000,	Time=0.001,	Add:4125,	Mul:0
+	//N=10000,	Time=0.003,	Add:44299,	Mul:0
+	//N=100000,	Time=0.008,	Add:466399,	Mul:0
+	//N=1000000,	Time=0.081,	Add:4853707,	Mul:0
+	//N=10000000,	Time=0.397,	Add:50130316,	Mul:0
+	//N=100000000, 	Time=3.380,	Add:515037280,	Mul:0
+	//N=1000000000,	Time=63.444,	Add:5271067967,	Mul:0
+	//Anything after Array too small
+	public void PrimeV3(double N){
+		int range = (int) N;
+		arrPrime = new ArrayList<Double>();
+		int[] sieve = new int[range+1];//+1 is due to me using index location as number
+		additionTotal+=N;//Put value in each cell;
+		Arrays.fill(sieve,0);
+		for(int i = 2; i < sieve.length;i++){
+			additionTotal++;//Going through all cells
+			if(sieve[i]==0){
+			//	System.out.println(i);
+				arrPrime.add((double)i);
+				additionTotal++;//Adding to array
+				for(int l = i+i; l < sieve.length;l = l+i){
+					additionTotal++;//Loop
+					sieve[l]=1;//Not prime
+				}		
+			}
+		}
+		PrintResults();
+	}
+
+
 	//Version 2
 	//N:100,     Time:0.001,    Add: 535,        Mul: 485
 	//N:1000,    Time:0.005,    Add: 16787,      Mul: 16451
